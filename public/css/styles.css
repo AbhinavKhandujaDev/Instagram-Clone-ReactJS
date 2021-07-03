@@ -1,0 +1,73 @@
+.btn-default {
+    position: relative;
+    border: none;
+    background: var(--default-blue);
+    width: 268px;
+    height: 30px;
+    font-weight: 600;
+    line-height: 100%;
+    border-radius: 4px;
+    font-size: 14px;
+    color: white;
+}
+
+.btn-default:disabled {
+    background: var(--default-blue-disabled)
+}
+
+.btn-default:not(:disabled):active {
+    background: var(--default-blue-active)
+}
+
+.btn-default.loader {
+    color: transparent;
+}
+
+.btn-default.loader::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-size: 20px 20px;
+    background-image: url(../images/spinner.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.border-box {
+    background-color: white;
+    border-radius: 1px;
+    border: var(--default-border);
+}
+
+.txt-field-default {
+    position: relative;
+    font-size: 12px;
+    width: 268px;
+    height: 38px;
+    border: var(--default-border);
+    border-radius: 3px;
+    background: rgba(250, 250, 250);
+    padding: 8px;
+    outline: none;
+}
+
+.txt-field-default:focus {
+    border-color: darkgray;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.no-select {
+    user-select: none
+}
