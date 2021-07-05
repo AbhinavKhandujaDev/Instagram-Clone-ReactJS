@@ -1,0 +1,44 @@
+.Profile .profile-content-div {
+    width: calc(100% - 40px);
+    max-width: 935px;
+    padding: 30px 20px 0;
+}
+
+.Profile .Avatar {
+    margin-right: 90px;
+}
+
+.Profile .profile-details-div {
+    max-width: 320px;
+}
+
+.Profile .profile-details-div :is(.action-div, .audience-div) {
+    margin-bottom: 20px;
+}
+
+.Profile .profile-details-div button {
+    max-width: 93px;
+}
+
+.Profile .profile-details-div .username-div {
+    font-size: 28px;
+    font-weight: 300;
+}
+
+.Profile .profile-details-div .audience-div {
+    margin-right: 10px;
+    font-weight: 500;
+    max-width: 320px;
+}
+
+.Profile .profile-details-div .audience-div div {
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.Profile .profile-details-div .audience-div div span {
+    font-weight: 600;
+}
+
+
+/* 735 */

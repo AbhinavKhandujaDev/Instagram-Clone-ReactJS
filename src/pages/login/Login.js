@@ -42,7 +42,7 @@ class Login extends Component {
             break;
         }
       })
-      .finally(() => this.setState({ loading: false }));
+      .finally(() => this && this.setState({ loading: false }));
   };
 
   render() {
@@ -54,14 +54,10 @@ class Login extends Component {
           className="sign-in d-flex-inline flex-column"
         >
           <div className="border-box">
-            <div className="flex-center flex-column m-5">
-              <img
-                className="mb-5"
-                width="175px"
-                height="65px"
-                src="./images/instagram-logo.png"
-                alt=""
-              />
+            <div className="flex-center flex-column m-3">
+              <div className="instagram-logo-text insta-font m-3">
+                Instagram
+              </div>
               <input
                 className="txt-field-default m-1"
                 placeholder="Email"

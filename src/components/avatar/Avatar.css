@@ -1,0 +1,13 @@
+.Avatar .border-div>div {
+    background: white
+}
+
+.Avatar .pic {
+    object-fit: cover;
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background: white;
+    background-position: center;
+    background-size: 100px;
+}

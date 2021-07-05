@@ -1,0 +1,37 @@
+.Home {
+    background: var(--default-bg);
+}
+
+.Home nav {
+    height: 54px;
+    padding: 0 24px;
+    background: white;
+    border-bottom: var(--default-border);
+}
+
+.Home nav .search-field {
+    position: relative;
+    width: 215px;
+    height: 28px
+}
+
+.Home nav .nav-links img {
+    width: 22px;
+    height: 22px;
+}
+
+.Home nav .search-field img {
+    width: 15px;
+    height: 15px
+}
+
+.Home nav .search-field input {
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+.Home nav .search-field .input-conntainer input:not(:focus)+img {
+    position: absolute;
+    z-index: -1;
+}

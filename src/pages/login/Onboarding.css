@@ -2,6 +2,10 @@
     background: var(--default-bg)
 }
 
+.Onboarding .instagram-logo-text {
+    font-size: 40px
+}
+
 .Onboarding :is(.sign-in, .sign-up) {
     max-width: 350px;
 }
@@ -10,6 +14,7 @@
     font-size: 17px;
     font-weight: 600;
     color: #8e8e8e;
+    max-width: 250px;
 }
 
 .Onboarding .onboarding-switch {
