@@ -20,13 +20,13 @@ const NavBar = memo((props) => {
   return (
     <nav className="w-100 flex-center justify-content-between">
       <div className="insta-font h3">Instagram</div>
-      <div className="search-field txt-field-default flex-center">
+      {/* <div className="search-field txt-field-default flex-center">
         <div className="input-conntainer flex-grow-1">
           <img src="./images/search-icon.svg" alt="" />{" "}
           <input type="text" placeholder="Search" />
         </div>
         <img className="clear" src="./images/cancel-icon.svg" alt="" />
-      </div>
+      </div> */}
       <div className="nav-links flex-center">
         <img
           className="m-3 pointer"
@@ -107,9 +107,9 @@ class Home extends Component {
   };
   render() {
     return (
-      <div className="Home w-100 h-100 flex-center flex-column justify-content-start">
+      <div className="Home overflow-hidden w-100 h-100 flex-center flex-column justify-content-start">
         <NavBar icons={this.state.icons} optionTapped={this.navlinkTapped} />
-        <div className="hoem-content w-100 flex-grow-1 position-relative">
+        <div className="home-content w-100 flex-grow-1 position-relative">
           <Switch>
             <Route exact path="/"></Route>
             <Route exact path="/messages"></Route>

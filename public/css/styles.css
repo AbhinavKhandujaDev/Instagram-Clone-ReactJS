@@ -2,7 +2,6 @@
     position: relative;
     border: none;
     background: var(--default-blue);
-    width: 268px;
     height: 30px;
     font-weight: 600;
     line-height: 100%;
@@ -11,12 +10,27 @@
     color: white;
 }
 
+.btn-default.width-auto {
+    width: auto;
+    padding: 5px 24px;
+}
+
+.btn-default.bordered {
+    background: transparent;
+    border: var(--default-border);
+    color: rgba(38, 38, 38);
+}
+
 .btn-default:disabled {
     background: var(--default-blue-disabled)
 }
 
-.btn-default:not(:disabled):active {
+.btn-default:not(:disabled, .bordered):active {
     background: var(--default-blue-active)
+}
+
+.btn-default:not(:disabled):is(.bordered):active {
+    opacity: 0.7;
 }
 
 .btn-default.loader {
@@ -64,10 +78,30 @@
     justify-content: center;
 }
 
+.flex-center-v {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.flex-center-h {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
 .pointer {
     cursor: pointer;
 }
 
 .no-select {
     user-select: none
+}
+
+.hidden {
+    position: absolute;
+    overflow: hidden;
+    max-width: 0;
+    max-height: 0;
+    z-index: -1;
 }

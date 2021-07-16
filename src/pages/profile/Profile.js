@@ -1,32 +1,62 @@
 import { memo, Component } from "react";
 import "./Profile.css";
-import Avatar from "../../components/avatar/Avatar";
+import Header from "./header/Header";
+import ImageView from "../../components/imageView/ImageView";
+import { ReactComponent as PostIcon } from "../../assets/posts-icon.svg";
+import { ReactComponent as SavedPostIcon } from "../../assets/saved-posts-icon.svg";
+import { ReactComponent as SelfPostIcon } from "../../assets/self-posts-icon.svg";
+
+const selectedTabColor = "#0094f6";
+const unselectedTabColor = "#8e8e8e";
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      avatarSize: 168,
+      selectedTabIndex: 0,
+    };
+  }
+  componentDidMount() {
+    this.setState({ avatarSize: window.innerWidth < 736 ? 77 : 168 });
+
+    window.onresize = () =>
+      this.setState({ avatarSize: window.innerWidth < 736 ? 77 : 168 });
+  }
+
+  shouldComponentUpdate(next, nextState) {
+    return JSON.stringify(this.state) !== JSON.stringify(nextState);
+  }
+
+  getSelectedColor(index) {
+    return this.state.selectedTabIndex === index
+      ? selectedTabColor
+      : unselectedTabColor;
+  }
+
   render() {
     return (
-      <div className="Profile w-100 h-100 flex-center align-items-start">
+      <div className="Profile position-relative flex-center">
         <div className="profile-content-div">
-          <div className="details-div w-100 flex-center justify-content-start">
-            <Avatar radius={168} />
-            <div className="profile-details-div flex-grow-1">
-              <div className="action-div flex-center justify-content-between flex-wrap">
-                <div className="username-div">This is username</div>
-                <button className="btn-default">Follow</button>
-              </div>
-              <div className="audience-div flex-center justify-content-between">
-                <div>
-                  <span>69</span> posts
-                </div>
-                <div>
-                  <span>69</span> followers
-                </div>
-                <div>
-                  <span>69</span> following
-                </div>
-              </div>
-            </div>
+          <Header avatarSize={this.state.avatarSize} />
+          <div className="post-tabs-div pt-3 pb-3 flex-center justify-content-between">
+            <PostIcon
+              className="flex-grow-1 pointer"
+              fill={this.getSelectedColor(0)}
+              onClick={() => this.setState({ selectedTabIndex: 0 })}
+            />
+            <SavedPostIcon
+              className="flex-grow-1 pointer"
+              fill={this.getSelectedColor(1)}
+              onClick={() => this.setState({ selectedTabIndex: 1 })}
+            />
+            <SelfPostIcon
+              className="flex-grow-1 pointer"
+              fill={this.getSelectedColor(2)}
+              onClick={() => this.setState({ selectedTabIndex: 2 })}
+            />
           </div>
+          <ImageView />
         </div>
       </div>
     );

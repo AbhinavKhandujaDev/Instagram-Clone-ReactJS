@@ -1,15 +1,21 @@
 .Profile .profile-content-div {
+    position: relative;
     width: calc(100% - 40px);
     max-width: 935px;
     padding: 30px 20px 0;
 }
 
-.Profile .Avatar {
+.Profile .profile-content-div .post-tabs-div {
+    margin-top: 20px;
+    border-top: var(--default-border);
+}
+
+/* .Profile .Avatar {
     margin-right: 90px;
 }
 
 .Profile .profile-details-div {
-    max-width: 320px;
+    max-width: 70%;
 }
 
 .Profile .profile-details-div :is(.action-div, .audience-div) {
@@ -21,24 +27,71 @@
 }
 
 .Profile .profile-details-div .username-div {
-    font-size: 28px;
-    font-weight: 300;
+    margin-right: 10px;
+    max-width: 90%;
+    min-width: 40%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.Profile .profile-details-div .audience-div {
-    margin-right: 10px;
+.Profile .profile-details-div .name {
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    text-align: left
+}
+
+.Profile .audience-div {
+    font-weight: 500;
     font-weight: 500;
     max-width: 320px;
 }
 
-.Profile .profile-details-div .audience-div div {
-    margin-right: 10px;
-    font-weight: 500;
-}
-
-.Profile .profile-details-div .audience-div div span {
+.Profile .audience-div div span {
     font-weight: 600;
+} */
+
+@media only screen and (max-width: 735px) {
+    .Profile .profile-content-div {
+        padding: 30px 0;
+        width: 100%;
+    }
+    .Profile .profile-content-div .post-tabs-div {
+        margin-top: 0;
+        border-bottom: var(--default-border);
+    }
 }
 
+/* @media only screen and (max-width: 735px) {
+    .Profile .profile-content-div {
+        padding: 0;
+        width: 100%
+    }
+    .Profile .details-div {
+        margin: 16px 16px 24px 16px
+    }
 
-/* 735 */
+    .Profile .profile-details-div .username-div {
+        margin-right: 0px;
+        font-size: 20px;
+        text-align: start;
+    }
+    .Profile .profile-details-div button {
+        min-width: 100%;
+    }
+    .Profile .profile-details-div .audience-div {
+        position: absolute;
+        z-index: -1;
+        top: -100vh;
+        left: 0;
+    }
+    .Profile .Avatar {
+        margin-right: 28px;
+    }
+    .Profile .audience-div {
+        max-width: none;
+        padding: 12px;
+        border: var(--default-border)
+    }
+} */
