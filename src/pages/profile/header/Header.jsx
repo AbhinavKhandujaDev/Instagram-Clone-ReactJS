@@ -9,25 +9,37 @@ const Audience = (props) => {
       className={`audience-div w-100 flex-center justify-content-between ${classes}`}
     >
       <div>
-        <span>69</span> posts
+        <span>{props.data.postsCount}</span> posts
       </div>
       <div>
-        <span>69</span> followers
+        <span>{props.data.followers}</span> followers
       </div>
       <div>
-        <span>69</span> following
+        <span>{props.data.following}</span> following
       </div>
     </div>
   );
 };
 
+const Actions = (props) => {
+  if (props.data.id === window.firebase.auth().currentUser.uid) {
+    return (
+      <button className="flex-grow-1 btn-default bordered">Edit Profile</button>
+    );
+  } else if (props.data.id !== window.firebase.auth().currentUser.uid) {
+    return (
+      <button className="flex-grow-1 btn-default bordered">Edit Profile</button>
+    );
+  }
+};
+
 function Header(props) {
-  const { avatarSize = 168 } = props;
+  const { avatarSize = 168, userData } = props;
   return (
     <div className="Header">
-      <div className="upper-sections-div flex-center-v align-items-start">
+      <div className="upper-sections-div flex-center-v align-items-start px-3">
         <section className="left-section">
-          <Avatar radius={avatarSize} />
+          <Avatar radius={avatarSize} src={userData?.profileImageUrl} />
         </section>
         <section
           className={`right-section d-flex align-items-start flex-column ms-${
@@ -35,8 +47,8 @@ function Header(props) {
           }`}
         >
           <div className="profile-actions-div d-flex w-100 flex-wrap">
-            <div className="username h1 w-75">
-              ThisausernamekncjnskjcnsdjkcnskjcnsjkcnskjcnsjkcdsnkcjsdThisausernamekncjnskjcnsdjkcnskjcnsjkcnskjcnsjkcdsnkcjsd
+            <div className="username h1 w-75 text-start">
+              {userData?.username}
             </div>
             <div className="actions-div flex-center-v float-left flex-grow-1">
               <button className="flex-grow-1 btn-default bordered">
@@ -46,55 +58,19 @@ function Header(props) {
               <button className="flex-grow-1 btn-default">Follow</button>
             </div>
           </div>
-          {avatarSize === 168 ? <Audience /> : null}
+          {avatarSize === 168 ? <Audience data={props.userData} /> : null}
           <div className="bio-div text-start">
-            <div className="name">Virat Kohli</div>
+            <div className="name">{userData?.name}</div>
             {/* 150 or fewer */}
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500
+            {userData?.bio}
           </div>
         </section>
       </div>
-      {avatarSize === 77 ? <Audience classes="bottom-div" /> : null}
+      {avatarSize === 77 ? (
+        <Audience classes="bottom-div" data={props.userData} />
+      ) : null}
     </div>
   );
-  // return (
-  //   <div className="Header w-100 position-relative flex-center flex-column">
-  //     <div className="m-1 flex-center">
-  //       <div className="dp-div d-flex">
-  //         <Avatar radius={avatarSize} />
-  //         <div
-  //           style={{
-  //             width: avatarSize === 168 ? 60 : 28,
-  //             height: avatarSize,
-  //           }}
-  //         />
-  //       </div>
-  //       <section className="details-section d-flex position-relative flex-column">
-  //         <div className="d-flex flex-wrap position-relative">
-  //           <h1 className="username text-start">usernamencdjsnscjkdncjskncjdksncjksdncdjskncjkdsncjdks</h1>
-  //           <div className="actions-div flex-center-v flex-grow-1 justify-content-around position-relative">
-  //             <button className="flex-grow-1 btn-default bordered">
-  //               Message
-  //             </button>
-  //             <div style={{ width: 10 }} />
-  //             <button className="flex-grow-1 btn-default">Follow</button>
-  //           </div>
-  //         </div>
-  //         {avatarSize === 168 ? <Audience /> : null}
-  //         <div className="bio-div text-start">
-  //           <div className="name">Virat Kohli</div>
-  //           {/* 150 or fewer */}
-  //           Lorem Ipsum is simply dummy text of the printing and typesetting
-  //           industry. Lorem Ipsum has been the industry's standard dummy text
-  //           ever since the 1500
-  //         </div>
-  //       </section>
-  //     </div>
-  //     {avatarSize === 77 ? <Audience classes="bottom-div" /> : null}
-  //   </div>
-  // );
 }
 
 export default memo(Header);

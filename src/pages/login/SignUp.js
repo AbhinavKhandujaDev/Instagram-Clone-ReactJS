@@ -23,7 +23,7 @@ class SignUp extends Component {
       .ref(`usernames/${this.state.username}`)
       .get()
       .then((snapshot) => {
-        if (snapshot.val() === 1) {
+        if (snapshot.val() !== null) {
           this.setState({ loading: false, error: "Username already exists" });
           return;
         } else {
@@ -41,6 +41,9 @@ class SignUp extends Component {
                   username: this.state.username,
                 },
               };
+              window.dbRef
+                .ref("usernames")
+                .update({ [this.state.username]: result.user.uid });
               window.usersRef.update(values, () =>
                 this.props.history.push("/home")
               );

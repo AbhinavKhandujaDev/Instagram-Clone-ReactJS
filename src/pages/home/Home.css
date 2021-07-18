@@ -1,5 +1,6 @@
 .Home {
     background: var(--default-bg);
+    min-height: 100%;
 }
 
 .Home nav {

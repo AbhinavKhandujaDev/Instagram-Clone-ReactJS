@@ -1,10 +1,17 @@
 import { memo } from "react";
+import "./ImageView.css";
 
 function ImageView(props) {
-  const { src, styles } = props;
+  const { src, styles, className } = props;
   return (
-    <div className="ImageView position-relative" {...styles}>
-      <img width="100px" height="100px" src={src} alt="" />
+    <div className={`ImageView ${className}`} {...styles}>
+      <img
+        className="position-absolute"
+        width="100%"
+        height="100%"
+        src={src}
+        alt=""
+      />
     </div>
   );
 }

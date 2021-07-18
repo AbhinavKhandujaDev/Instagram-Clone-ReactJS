@@ -1,18 +1,18 @@
 import { memo, Component } from "react";
-import { withRouter, Switch, Route } from "react-router-dom";
+import { withRouter, Switch, Route, Link } from "react-router-dom";
+import "./Home.css";
 import Avatar from "../../components/avatar/Avatar";
 import Profile from "../profile/Profile";
-import "./Home.css";
 
 const selectedImages = {
-  homeImage: "./images/home-selected-icon.svg",
-  msgImage: "./images/message-selected-icon.svg",
-  notifImage: "./images/like-selected-black-icon.svg",
+  homeImage: "/images/home-selected-icon.svg",
+  msgImage: "/images/message-selected-icon.svg",
+  notifImage: "/images/like-selected-black-icon.svg",
 };
 const unselectedImages = {
-  homeImage: "./images/home-icon.svg",
-  msgImage: "./images/message-icon.svg",
-  notifImage: "./images/like-icon.svg",
+  homeImage: "/images/home-icon.svg",
+  msgImage: "/images/message-icon.svg",
+  notifImage: "/images/like-icon.svg",
 };
 
 const NavBar = memo((props) => {
@@ -68,21 +68,11 @@ class Home extends Component {
     };
   }
   componentDidMount() {
-    if (
-      window.location.pathname === "/" ||
-      window.location.pathname === "/home"
-    ) {
-      this.setState({
-        icons: { ...this.state.icons, homeImage: selectedImages.homeImage },
-      });
-    }
+    this.setState({
+      icons: { ...this.state.icons, homeImage: selectedImages.homeImage },
+    });
   }
-  shouldComponentMount() {
-    if (window.firebase.auth().currentUser != null) {
-      this.props.history.push("/login");
-    }
-    return !window.firebase.auth().currentUser != null;
-  }
+
   navlinkTapped = (path) => {
     let obj = { ...unselectedImages };
     switch (path) {
@@ -98,7 +88,8 @@ class Home extends Component {
         obj.notifImage = selectedImages.notifImage;
         break;
       case "profile":
-        this.props.history.push("/profile");
+        let username = JSON.parse(sessionStorage.getItem("user")).username;
+        this.props.history.push(`/${username}`);
         break;
       default:
         break;
@@ -107,13 +98,15 @@ class Home extends Component {
   };
   render() {
     return (
-      <div className="Home overflow-hidden w-100 h-100 flex-center flex-column justify-content-start">
+      <div className="Home overflow-hidden w-100 flex-center flex-column justify-content-start">
         <NavBar icons={this.state.icons} optionTapped={this.navlinkTapped} />
         <div className="home-content w-100 flex-grow-1 position-relative">
           <Switch>
-            <Route exact path="/"></Route>
-            <Route exact path="/messages"></Route>
-            <Route exact path="/profile">
+            <Route exact path="/" key={0}></Route>
+            <Route exact path="/messages" key={1}>
+              <div>Messages</div>
+            </Route>
+            <Route path="/:username" key={2}>
               <Profile />
             </Route>
           </Switch>
@@ -122,4 +115,5 @@ class Home extends Component {
     );
   }
 }
+
 export default withRouter(memo(Home));

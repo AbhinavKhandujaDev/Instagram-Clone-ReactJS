@@ -1,0 +1,8 @@
+.ImageView {
+    padding-top: 100%;
+}
+
+.ImageView img {
+    top: 0;
+    left: 0;
+}

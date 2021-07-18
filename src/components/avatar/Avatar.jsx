@@ -8,6 +8,7 @@ function Avatar(props) {
     strokeColor = "var(--default-gradient)",
     radius = 22,
     onClick,
+    src,
   } = props;
   return (
     <div
@@ -36,7 +37,11 @@ function Avatar(props) {
           className="w-100 h-100"
         />
       </div>
-      <img className="pic position-absolute" src="./images/avatar.jpg" alt="" />
+      <img
+        className="pic position-absolute"
+        src={src || "/images/avatar.jpg"}
+        alt=""
+      />
     </div>
   );
 }

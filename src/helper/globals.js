@@ -17,14 +17,21 @@ window.firebase = firebase;
 window.dbRef = firebase.database();
 window.storageRef = firebase.storage();
 
+// (async () => {
+//   let ref = window.dbRef.ref("users");
+//   let resp = await ref.child("AmgiBnUXPiXiSh4QLgNMmkle2tZ2").once("value");
+//   console.log(JSON.stringify(resp.val(), null, 4));
+// })();
+
+// return;
 // firebase
 //   .database()
 //   .ref("users")
 //   .on(
 //     "value",
 //     (snapshot) => {
-//       debugger;
-//       console.log(JSON.stringify(snapshot, null, 4));
+//       // console.log(JSON.stringify(snapshot, null, 4));
+//       return snapshot;
 //     },
 //     (error) => {
 //       debugger;
@@ -32,12 +39,14 @@ window.storageRef = firebase.storage();
 //   );
 
 window.usersRef = window.dbRef.ref("users");
+window.usernamesRef = window.dbRef.ref("usernames");
 window.postsRef = window.dbRef.ref("posts");
 window.userFeedRef = window.dbRef.ref("user-feed");
 window.userPostsRef = window.dbRef.ref("user-posts");
 window.userLikesRef = window.dbRef.ref("user-likes");
 window.postLikesRef = window.dbRef.ref("post-likes");
 window.userFollowerRef = window.dbRef.ref("user-follower");
+window.userFollowingRef = window.dbRef.ref("user-following");
 window.commentsRef = window.dbRef.ref("comments");
 window.notificationsRef = window.dbRef.ref("notifications");
 window.messagesRef = window.dbRef.ref("messages");
