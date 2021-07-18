@@ -26,5 +26,13 @@ export async function getCollectionCount(key, ref) {
 export async function getPosts(key) {
   let ref = window.userPostsRef;
   let resp = await ref.child(key).once("value");
-  return resp;
+  let postIds = Object.keys(resp.val());
+  let data = Promise.all(
+    postIds.map(async (obj) => {
+      let ref = window.postsRef;
+      let value = await ref.child(obj).once("value");
+      return value.val();
+    })
+  );
+  return data;
 }

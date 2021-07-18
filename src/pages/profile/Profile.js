@@ -16,7 +16,7 @@ import { ReactComponent as SelfPostIcon } from "../../assets/self-posts-icon.svg
 const selectedTabColor = "#0094f6";
 const unselectedTabColor = "#8e8e8e";
 
-const InvalidUser = () => {
+const InvalidUser = (props) => {
   return (
     <div className="Invalid-User m-5">
       <div className="h1">Sorry, this page isn't available.</div>
@@ -29,7 +29,7 @@ const InvalidUser = () => {
           }}
         >
           {" "}
-          Go back.
+          Go to home.
         </span>
       </div>
     </div>
@@ -70,7 +70,7 @@ class Profile extends Component {
       id: id.val(),
       postsCount: postsCount,
     };
-    this.setState({ userData: { ...obj }, posts: posts.val() });
+    this.setState({ userData: { ...obj }, posts: posts });
   }
 
   componentDidMount() {
@@ -133,18 +133,9 @@ class Profile extends Component {
           <Switch>
             <Route exact path={`/${this.state.userData?.username}`}>
               <div className="gallery-grid w-100">
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=1" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=2" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=3" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=4" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=5" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=6" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=7" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=8" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=9" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=0" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=1" />
-                <ImageView src="https://source.unsplash.com/random/200x200?sig=2" />
+                {this.state.posts.map((post) => (
+                  <ImageView className="pointer" src={post.imageUrl} />
+                ))}
               </div>
             </Route>
             <Route exact path={`/${this.state.userData?.username}/saved`}>
