@@ -1,8 +1,9 @@
 import { memo, Component } from "react";
-import { withRouter, Switch, Route, Link } from "react-router-dom";
+import { withRouter, Switch, Route } from "react-router-dom";
 import "./Home.css";
 import Avatar from "../../components/avatar/Avatar";
 import Profile from "../profile/Profile";
+import Account from "../account/Account";
 
 const selectedImages = {
   homeImage: "/images/home-selected-icon.svg",
@@ -88,7 +89,7 @@ class Home extends Component {
         obj.notifImage = selectedImages.notifImage;
         break;
       case "profile":
-        let username = JSON.parse(sessionStorage.getItem("user")).username;
+        let username = window.fbUser.username;
         this.props.history.push(`/${username}`);
         break;
       default:
@@ -106,7 +107,10 @@ class Home extends Component {
             <Route exact path="/messages" key={1}>
               <div>Messages</div>
             </Route>
-            <Route path="/:username" key={2}>
+            <Route exact path="/account/:type" key={2}>
+              <Account />
+            </Route>
+            <Route path="/:username" key={3}>
               <Profile />
             </Route>
           </Switch>

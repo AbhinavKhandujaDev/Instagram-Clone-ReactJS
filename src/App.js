@@ -14,12 +14,13 @@ function App() {
       if (user) {
         window.usersRef.child(user.uid).on("value", (snapshot) => {
           let obj = { ...snapshot.val(), uid: user.uid };
-          obj = JSON.stringify(obj);
-          sessionStorage.setItem("user", obj);
+          // obj = JSON.stringify(obj);
+          // sessionStorage.setItem("user", obj);
+          window.fbUser = obj;
           setLoggedIn(true);
         });
       } else {
-        setLoggedIn(true);
+        setLoggedIn(false);
       }
     });
   }, []);
@@ -27,21 +28,12 @@ function App() {
     <div className="App">
       {isLoggedIn === null ? (
         <div className="w-100 h-100 flex-center">
-          <img
-            width={70}
-            height={70}
-            src="/images/instagram-icon.svg"
-            alt=""
-          />
+          <img width={70} height={70} src="/images/instagram-icon.svg" alt="" />
         </div>
       ) : (
         <Router>
           {isLoggedIn ? (
-            <Switch>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
+            <Home />
           ) : (
             <Switch>
               <Route exact path="/">

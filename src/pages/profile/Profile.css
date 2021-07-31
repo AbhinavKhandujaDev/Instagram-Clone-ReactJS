@@ -12,8 +12,8 @@
 
 .Profile .gallery-grid {
     display: grid;
-    grid-template-columns: 33% 33% 33%;
-    gap: 0.5%;
+    grid-template-columns: 30% 30% 30%;
+    gap: 5%;
 }
 
 @media only screen and (max-width: 735px) {
@@ -24,5 +24,9 @@
     .Profile .profile-content-div .post-tabs-div {
         margin-top: 0;
         border-bottom: var(--default-border);
+    }
+    .Profile .gallery-grid {
+        grid-template-columns: 33% 33% 33%;
+        gap: 0.5%;
     }
 }

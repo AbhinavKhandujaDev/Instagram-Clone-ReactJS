@@ -3,7 +3,7 @@ import "./Profile.css";
 import Header from "./header/Header";
 import { Switch, Route, withRouter, Link } from "react-router-dom";
 import {
-  getPosts,
+  getUserPosts,
   fetchUserData,
   getIdByUsername,
   getCollectionCount,
@@ -36,6 +36,7 @@ const InvalidUser = (props) => {
   );
 };
 class Profile extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -62,7 +63,7 @@ class Profile extends Component {
       true
     );
     let postsCount = await getCollectionCount(id.val(), window.userPostsRef);
-    let posts = await getPosts(id.val());
+    let posts = await getUserPosts(window.userPostsRef, id.val(), null, 15);
     let obj = {
       ...userData.val(),
       followers: followers,
@@ -70,13 +71,45 @@ class Profile extends Component {
       id: id.val(),
       postsCount: postsCount,
     };
-    this.setState({ userData: { ...obj }, posts: posts });
+    if (obj.id !== window.fbUser.id) {
+      let ref = window.userFollowingRef;
+      let res = await ref.child(`${window.fbUser.uid}/${obj.id}`).once("value");
+      let isCurrentUserFollowing = res.val() === 1;
+      obj["isCurrentUserFollowing"] = isCurrentUserFollowing;
+    }
+    if (this._isMounted) {
+      this.setState({
+        userData: { ...obj },
+        posts: posts.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)),
+      });
+    }
+  }
+
+  // componentWillMount() {
+  //   this.unlisten = this.props.history.listen((location, action) => {
+  //     if (this.lastPath !== location.pathname) {
+  //       this.setState({ userData: {} });
+  //       this.fetchProfileData();
+  //     }
+  //   });
+  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.match.url !== this.props.match.url) {
+      this.setState({ userData: {} });
+      this.fetchProfileData();
+    }
+    // console.log("prevProps " + JSON.stringify(prevProps, null, 4));
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.fetchProfileData();
     window.onresize = () =>
       this.setState({ avatarSize: window.innerWidth < 736 ? 77 : 168 });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   shouldComponentUpdate(next, nextState) {
@@ -101,6 +134,7 @@ class Profile extends Component {
           <Header
             avatarSize={this.state.avatarSize}
             userData={this.state.userData}
+            editProfileTapped={() => this.props.history.push("/account/edit")}
           />
           <div className="post-tabs-div pt-3 pb-3 flex-center justify-content-between">
             <Link
@@ -134,7 +168,11 @@ class Profile extends Component {
             <Route exact path={`/${this.state.userData?.username}`}>
               <div className="gallery-grid w-100">
                 {this.state.posts.map((post) => (
-                  <ImageView className="pointer" src={post.imageUrl} />
+                  <ImageView
+                    className="pointer"
+                    src={post.imageUrl}
+                    key={post.createdAt}
+                  />
                 ))}
               </div>
             </Route>

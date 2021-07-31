@@ -22,13 +22,25 @@ const Audience = (props) => {
 };
 
 const Actions = (props) => {
+  const { parentProps } = props;
   if (props.data.id === window.firebase.auth().currentUser.uid) {
     return (
-      <button className="flex-grow-1 btn-default bordered">Edit Profile</button>
+      <button
+        className="flex-grow-1 btn-default bordered"
+        onClick={parentProps.editProfileTapped}
+      >
+        Edit Profile
+      </button>
     );
   } else if (props.data.id !== window.firebase.auth().currentUser.uid) {
     return (
-      <button className="flex-grow-1 btn-default bordered">Edit Profile</button>
+      <>
+        <button className="flex-grow-1 btn-default bordered">Message</button>
+        <div style={{ width: 10 }} />
+        <button className="flex-grow-1 btn-default">
+          {props.data.isCurrentUserFollowing ? "Following" : "Follow"}
+        </button>
+      </>
     );
   }
 };
@@ -51,11 +63,12 @@ function Header(props) {
               {userData?.username}
             </div>
             <div className="actions-div flex-center-v float-left flex-grow-1">
-              <button className="flex-grow-1 btn-default bordered">
+              {/* <button className="flex-grow-1 btn-default bordered">
                 Message
               </button>
               <div style={{ width: 10 }} />
-              <button className="flex-grow-1 btn-default">Follow</button>
+              <button className="flex-grow-1 btn-default">Follow</button> */}
+              <Actions parentProps={props} data={props.userData} />
             </div>
           </div>
           {avatarSize === 168 ? <Audience data={props.userData} /> : null}

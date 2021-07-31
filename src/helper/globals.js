@@ -15,7 +15,7 @@ firebase.initializeApp(configure);
 window.firebase = firebase;
 
 window.dbRef = firebase.database();
-window.storageRef = firebase.storage();
+window.storage = firebase.storage();
 
 // (async () => {
 //   let ref = window.dbRef.ref("users");
@@ -38,6 +38,15 @@ window.storageRef = firebase.storage();
 //     }
 //   );
 
+// firebase
+//   .database()
+//   .ref("posts")
+//   .limitToLast(1)
+//   .orderByKey()
+//   .once("value", (ss) => {
+//     console.log(JSON.stringify(ss.val(), null, 4));
+//   });
+
 window.usersRef = window.dbRef.ref("users");
 window.usernamesRef = window.dbRef.ref("usernames");
 window.postsRef = window.dbRef.ref("posts");
@@ -53,4 +62,9 @@ window.messagesRef = window.dbRef.ref("messages");
 window.userMessagesRef = window.dbRef.ref("user-messages");
 window.hashtagPostsRef = window.dbRef.ref("hashtag-post");
 
-window.profileImageStorageRef = window.storageRef.ref("profile_images");
+window.profileImageStorageRef = window.storage.ref("profile_images");
+
+// firebase
+//   .storage()
+//   .ref("profile_images")
+//   .child("12351EA7-9457-4DF0-BEA1-6A0252920520").put();
