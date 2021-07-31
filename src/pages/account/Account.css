@@ -1,0 +1,162 @@
+.Account {
+    display: contents
+}
+
+.account-content-div {
+    max-width: 935px;
+    width: 100%;
+    margin: 30px auto 0;
+}
+
+.Account .left-section {
+    flex-shrink: 0;
+    width: 237px;
+    border-right: var(--default-border);
+}
+
+.Account .left-section span {
+    width: calc(100% - 48px)
+}
+
+.Account .left-section .opt-row {
+    border-left: 2px solid transparent;
+    font-size: 16px;
+    color: #262626
+}
+
+.Account .left-section .opt-row.selected {
+    border-left-color: black;
+    font-weight: 600;
+    font-size: 16px;
+    color: black;
+}
+
+.Account .left-section .opt-row:hover:not(.selected) {
+    background: #fafafa;
+    border-left-color: #dbdbdb;
+}
+
+.Account .TitleFieldView {
+    max-width: 430px;
+    margin-bottom: 16px;
+}
+
+.Account .TitleFieldView .profile-pic-div h1 {
+    text-align: start;
+    font-size: 20px;
+    max-width: 256px;
+    min-width: 256px;
+    overflow: hidden
+}
+
+.Account .TitleFieldView .profile-pic-div .photo-text-div {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.Account .TitleFieldView .title-div {
+    width: 77px;
+    font-size: 16px;
+    color: #262626;
+    text-align: end;
+    font-weight: bold;
+    margin-right: 30px;
+}
+
+.Account .TitleFieldView :is(input, textarea) {
+    border: var(--default-border);
+    border-radius: 3px;
+    font-size: 16px;
+    height: 32px;
+    max-width: 355px;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.Account .TitleFieldView textarea {
+    min-height: 60px;
+    padding: 6px 10px;
+}
+
+.Account #change-password input {
+    height: 40px;
+    border-radius: 6px;
+    background: var(--default-bg)
+}
+
+.Account #change-password input:focus {
+    border-color: darkgray;
+    outline: none;
+}
+
+.Account #change-password .TitleFieldView .title-div {
+    width: 144px;
+}
+
+.Account .snackbar-div {
+    bottom: 0;
+    background: #262626;
+    height: 44px;
+    padding: 0 12px;
+    font-size: 14px;
+    color: white;
+    text-align: start;
+    font-weight: 600;
+    animation: snackbarAnim 3s forwards
+}
+
+/* .Account .snackbarAnim {
+    animation: snackbarAnim 1s forwards
+} */
+
+@media only screen and (max-width: 735px) {
+    .Account .left-section {
+        width: 0px;
+        overflow: hidden;
+    }
+    .Account .TitleFieldView .title-div {
+        margin-right: 10px;
+    }
+    .Account .TitleFieldView :is(input, textarea) {
+        max-width: 215px;
+    }
+}
+
+@keyframes snackbarAnim {
+    from {
+        bottom: -100%;
+    }
+    25% {
+        bottom: 0%;
+    }
+    50% {
+        bottom: 0%;
+    }
+    75% {
+        bottom: 0%;
+    }
+    85% {
+        bottom: -10%;
+    }
+    to {
+        bottom: -100%;
+    }
+}
+
+/* @keyframes snackbarAppearAnim {
+    from {
+        bottom: -100%
+    }
+    to {
+        bottom: 0%;
+    }
+}
+
+@keyframes snackbarDisappear {
+    from {
+        bottom: 0%
+    }
+    to {
+        bottom: -100%;
+    }
+} */

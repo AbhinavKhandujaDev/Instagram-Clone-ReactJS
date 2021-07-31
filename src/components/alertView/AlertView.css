@@ -1,0 +1,48 @@
+.AlertView {
+    background: white;
+    border-radius: 12px;
+    min-width: 400px;
+    min-height: 222px;
+    animation: alertAnim 0.2s forwards
+}
+
+.AlertView :is(.alert-header, .alert-body) {
+    width: 100%;
+}
+
+.AlertView .alert-header .title-div {
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+}
+
+.AlertView .alert-body .alert-opt-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: var(--default-border);
+    height: 48px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.AlertView .alert-body .alert-opt-div.no-weight {
+    font-weight: initial;
+}
+
+@media only screen and (max-width: 735px) {
+    .AlertView {
+        min-width: 260px;
+    }
+}
+
+@keyframes alertAnim {
+    from {
+        transform: scale(1.2);
+    }
+    to {
+        transform: scale(1);
+    }
+}
