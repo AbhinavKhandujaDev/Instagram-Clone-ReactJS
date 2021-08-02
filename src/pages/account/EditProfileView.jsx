@@ -45,7 +45,9 @@ function EditProfileView(props) {
     setstate({ ...state, showModal: false, isImageUpdating: true });
     let id = await getFileId();
     try {
-      await window.storage.refFromURL(window.fbUser.profileImageUrl).delete();
+      if (window.fbUser.profileImageUrl) {
+        await window.storage.refFromURL(window.fbUser.profileImageUrl).delete();
+      }
     } catch {}
     try {
       let file = new File(e.target.files, "");
