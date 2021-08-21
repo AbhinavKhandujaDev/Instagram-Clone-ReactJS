@@ -1,4 +1,4 @@
-import { memo, Component } from "react";
+import React, { memo, Component, useCallback } from "react";
 import "./Profile.css";
 import Header from "./header/Header";
 import { Switch, Route, withRouter, Link } from "react-router-dom";
@@ -9,12 +9,13 @@ import {
   getCollectionCount,
 } from "../../helper/firebase.js";
 import ImageView from "../../components/imageView/ImageView";
-import { ReactComponent as PostIcon } from "../../assets/posts-icon.svg";
-import { ReactComponent as SavedPostIcon } from "../../assets/saved-posts-icon.svg";
-import { ReactComponent as SelfPostIcon } from "../../assets/self-posts-icon.svg";
+import { ReactComponent as PostIcon } from "../../images/posts-icon.svg";
+import { ReactComponent as SavedPostIcon } from "../../images/saved-posts-icon.svg";
+import { ReactComponent as SelfPostIcon } from "../../images/self-posts-icon.svg";
 
 const selectedTabColor = "#0094f6";
 const unselectedTabColor = "#8e8e8e";
+const postsCountPerLoad = 10;
 
 const InvalidUser = (props) => {
   return (
@@ -35,6 +36,13 @@ const InvalidUser = (props) => {
     </div>
   );
 };
+const SpinnerView = React.forwardRef((props, ref) => {
+  return (
+    <div ref={ref} className="spinner-view w-100 flex-center p-3">
+      <img width={35} height={35} src="/images/spinner.gif" alt="" />
+    </div>
+  );
+});
 class Profile extends Component {
   _isMounted = false;
   constructor(props) {
@@ -45,8 +53,42 @@ class Profile extends Component {
       userData: {},
       username: null,
       posts: [],
+      loadingPosts: true,
+      isEndOfPosts: false,
     };
+    this.observer = React.createRef();
+    this.lastPostKey = React.createRef(null);
   }
+
+  fetchPhotos = (node) => {
+    // if (this.state.loadingPosts) return;
+    // if (this.observer.current) this.observer.current.disconnect();
+    this.observer.current = new IntersectionObserver(async (photos) => {
+      if (photos[0].isIntersecting && !this.state.loadingPosts) {
+        this.setState({ loadingPosts: true });
+        let posts = await getUserPosts(
+          window.userPostsRef,
+          this.state.userData.id,
+          this.lastPostKey.current,
+          postsCountPerLoad
+        );
+        if (posts.data?.length === 0) {
+          this.observer.current.disconnect();
+          this.setState({ isEndOfPosts: true });
+          return;
+        }
+        let sortedPosts = posts.data?.sort((a, b) =>
+          a.createdAt < b.createdAt ? 1 : -1
+        );
+        this.setState({
+          posts: [...this.state.posts, ...sortedPosts],
+          loadingPosts: false,
+        });
+        this.lastPostKey.current = posts.lastKey;
+      }
+    });
+    if (node) this.observer.current.observe(node);
+  };
 
   async fetchProfileData() {
     let path = this.props.location.pathname.split("/")[1];
@@ -63,7 +105,15 @@ class Profile extends Component {
       true
     );
     let postsCount = await getCollectionCount(id.val(), window.userPostsRef);
-    let posts = await getUserPosts(window.userPostsRef, id.val(), null, 15);
+    let posts = await getUserPosts(
+      window.userPostsRef,
+      id.val(),
+      this.lastPostKey.current,
+      postsCountPerLoad
+    );
+    let sortedPosts = posts.data.sort((a, b) =>
+      a.createdAt < b.createdAt ? 1 : -1
+    );
     let obj = {
       ...userData.val(),
       followers: followers,
@@ -78,27 +128,24 @@ class Profile extends Component {
       obj["isCurrentUserFollowing"] = isCurrentUserFollowing;
     }
     if (this._isMounted) {
-      this.setState({
-        userData: { ...obj },
-        posts: posts.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)),
-      });
+      this.setState(
+        {
+          userData: { ...obj },
+          posts: [...sortedPosts],
+          loadingPosts: false,
+        },
+        () => {
+          this.lastPostKey.current = posts.lastKey;
+        }
+      );
     }
   }
 
-  // componentWillMount() {
-  //   this.unlisten = this.props.history.listen((location, action) => {
-  //     if (this.lastPath !== location.pathname) {
-  //       this.setState({ userData: {} });
-  //       this.fetchProfileData();
-  //     }
-  //   });
-  // }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.match.url !== this.props.match.url) {
       this.setState({ userData: {} });
       this.fetchProfileData();
     }
-    // console.log("prevProps " + JSON.stringify(prevProps, null, 4));
   }
 
   componentDidMount() {
@@ -167,14 +214,19 @@ class Profile extends Component {
           <Switch>
             <Route exact path={`/${this.state.userData?.username}`}>
               <div className="gallery-grid w-100">
-                {this.state.posts.map((post) => (
-                  <ImageView
-                    className="pointer"
-                    src={post.imageUrl}
-                    key={post.createdAt}
-                  />
-                ))}
+                {this.state.posts.map((post) => {
+                  return (
+                    <ImageView
+                      className="pointer"
+                      src={post.imageUrl}
+                      key={post.createdAt}
+                    />
+                  );
+                })}
               </div>
+              {this.state.isEndOfPosts ? null : (
+                <SpinnerView ref={this.fetchPhotos} />
+              )}
             </Route>
             <Route exact path={`/${this.state.userData?.username}/saved`}>
               <div>hello</div>
@@ -198,7 +250,7 @@ class Profile extends Component {
 
   render() {
     return (
-      <div className="Profile position-relative flex-center">
+      <div className="Profile position-relative min-vh-100 flex-center align-items-start">
         {this.loadViews()}
       </div>
     );

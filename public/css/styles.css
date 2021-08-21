@@ -109,3 +109,17 @@
 .opacity-0 {
     opacity: 0;
 }
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.text-color-white {
+    color: white;
+}
+
+.no-style {
+    border: none;
+    background: none;
+    outline: none;
+}

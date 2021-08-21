@@ -1,10 +1,12 @@
-.Home {
-    background: var(--default-bg);
-    min-height: 100%;
+html {
+    background: var(--default-bg) !important;
+    padding-bottom: 10px
 }
 
 .Home nav {
     height: 54px;
+    position: fixed;
+    z-index: 1000;
     padding: 0 24px;
     background: white;
     border-bottom: var(--default-border);
@@ -35,6 +37,13 @@
 .Home nav .search-field .input-conntainer input:not(:focus)+img {
     position: absolute;
     z-index: -1;
+}
+
+.Home .home-content {
+    padding: 54px 0px;
+    position: absolute;
+    min-height: 100vh;
+    background: var(--default-bg);
 }
 
 @media only screen and (max-width: 500px) {

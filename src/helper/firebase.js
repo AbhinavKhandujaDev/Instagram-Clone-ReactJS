@@ -31,6 +31,11 @@ export async function getFollowersCount(key, isFollowing = false) {
   let resp = await ref.child(key).once("value");
   return resp.numChildren();
 }
+export async function getCount(ref, path) {
+  if (!ref) return;
+  let resp = await ref.child(path).once("value");
+  return resp.numChildren();
+}
 export async function getCollectionCount(path, ref) {
   if (!path || !ref) return;
   let resp = await ref.child(path).once("value");
@@ -38,20 +43,60 @@ export async function getCollectionCount(path, ref) {
 }
 
 export async function getUserPosts(ref, userId, lastKey, limit) {
+  let postsCount = lastKey ? limit + 1 : limit;
   let query = lastKey
-    ? await ref.child(userId).limitToLast(limit).orderByChild(lastKey)
-    : await ref.child(userId).limitToLast(limit).orderByKey();
+    ? await ref
+        .child(userId)
+        .endAt(lastKey)
+        .limitToLast(postsCount)
+        .orderByKey()
+    : await ref.child(userId).limitToLast(postsCount).orderByKey();
   let resp = await query.once("value");
   if (!resp.val()) return [];
   let postIds = Object.keys(resp.val());
-  let data = Promise.all(
+  let data = await Promise.all(
     postIds.map(async (obj) => {
       let ref = window.postsRef;
       let value = await ref.child(obj).once("value");
-      return value.val();
+      return { ...value.val(), postId: obj };
     })
   );
-  return data;
+  if (lastKey) data.pop();
+  return {
+    data,
+    lastKey: postIds[0],
+  };
+}
+export async function getPostComments(postId, lastKey, limit = 2) {
+  let postsCount = lastKey ? limit + 1 : limit;
+  let query = lastKey
+    ? await window.commentsRef
+        .child(postId)
+        .endAt(lastKey)
+        .limitToLast(postsCount)
+        .orderByKey()
+    : await window.commentsRef
+        .child(postId)
+        .limitToLast(postsCount)
+        .orderByKey();
+  let resp = await query.once("value");
+  if (!resp.val()) return [];
+  let postIds = Object.keys(resp.val());
+  let data = await Promise.all(
+    postIds.map(async (obj) => {
+      let comments = resp.val();
+      let username = await window.usersRef
+        .child(comments[obj].user)
+        .child("username")
+        .once("value");
+      return { ...comments[obj], commentId: obj, by: username.val() };
+    })
+  );
+  if (lastKey) data.pop();
+  return {
+    data,
+    lastKey: postIds[0],
+  };
 }
 
 export async function storageExists(name) {
@@ -65,9 +110,6 @@ export async function storageExists(name) {
 
 export async function changeProfileImage(files) {
   try {
-    
-  } catch (error) {
-    
-  }
+  } catch (error) {}
   await window.storage.refFromURL(window.fbUser.profileImageUrl).delete();
 }

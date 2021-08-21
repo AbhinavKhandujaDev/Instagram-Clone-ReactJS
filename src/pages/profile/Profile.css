@@ -1,3 +1,7 @@
+.Profile {
+    background: var(--default-bg);
+}
+
 .Profile .profile-content-div {
     position: relative;
     width: calc(100% - 40px);
@@ -13,8 +17,17 @@
 .Profile .gallery-grid {
     display: grid;
     grid-template-columns: 30% 30% 30%;
+    height: 100%;
+    /* grid-template-columns: 45% 45%; */
     gap: 5%;
+    padding-bottom: 135px;
+    align-items: start;
 }
+
+/* .Profile .gallery-grid .spinner-view {
+    bottom: 0;
+    width: 100%;
+} */
 
 @media only screen and (max-width: 735px) {
     .Profile .profile-content-div {

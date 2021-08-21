@@ -1,8 +1,9 @@
-import { memo, Component } from "react";
+import React, { memo, Component } from "react";
 import { withRouter, Switch, Route } from "react-router-dom";
 import "./Home.css";
 import Avatar from "../../components/avatar/Avatar";
 import Profile from "../profile/Profile";
+import Feeds from "../feeds/Feeds";
 import Account from "../account/Account";
 
 const selectedImages = {
@@ -67,6 +68,7 @@ class Home extends Component {
         notifImage: unselectedImages.notifImage,
       },
     };
+    this.lastScrollTop = React.createRef(0);
   }
   componentDidMount() {
     this.setState({
@@ -99,11 +101,13 @@ class Home extends Component {
   };
   render() {
     return (
-      <div className="Home overflow-hidden w-100 flex-center flex-column justify-content-start">
+      <div className="Home w-100 flex-center flex-column justify-content-start">
         <NavBar icons={this.state.icons} optionTapped={this.navlinkTapped} />
         <div className="home-content w-100 flex-grow-1 position-relative">
           <Switch>
-            <Route exact path="/" key={0}></Route>
+            <Route exact path="/" key={0}>
+              <Feeds />
+            </Route>
             <Route exact path="/messages" key={1}>
               <div>Messages</div>
             </Route>
